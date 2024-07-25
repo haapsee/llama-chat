@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "1e1f9572aab21797e1631a975ead410ad5d8e66aa8062b90b251f4ba1f8f8ba4"
+            "sha256": "f56c2b337574f804b8429caa38dd73ae93dcc6feb7260b01953256ee6993e1d9"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -832,13 +832,9 @@
             "version": "==4.66.4"
         },
         "transformers": {
-            "hashes": [
-                "sha256:6d59061392d0f1da312af29c962df9017ff3c0108c681a56d1bc981004d16d24",
-                "sha256:f956e25e24df851f650cb2c158b6f4352dfae9d702f04c113ed24fc36ce7ae2d"
-            ],
-            "index": "pypi",
+            "git": "git+https://github.com/huggingface/transformers.git",
             "markers": "python_full_version >= '3.8.0'",
-            "version": "==4.42.4"
+            "ref": "cb23d1b20b4450195564f107ac873e5ecd616def"
         },
         "typing-extensions": {
             "hashes": [
