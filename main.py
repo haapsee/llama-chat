@@ -14,7 +14,8 @@ pipe = ctransformers.AutoModelForCausalLM.from_pretrained(
     model_id_gguf,
     model_file=model_file_gguf,
     model_type="llama",
-    gpu_layers=0,
+    context_length=4096,
+    gpu_layers=0 if not torch.cuda.is_available() else 32, # 7B has 32, 13B has 40 and 70B has 80 layers
 )
 
 messages = [
