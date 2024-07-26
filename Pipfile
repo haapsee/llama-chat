@@ -4,11 +4,8 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-bitsandbytes = "*"
-accelerate = "*"
 torch = "*"
-transformers = {git = "git+https://github.com/huggingface/transformers.git"}
-ctransformers = "*"
+llama-cpp-python = "*"
 
 [dev-packages]
 
