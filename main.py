@@ -19,7 +19,7 @@ llm = llama_cpp.Llama.from_pretrained(
     repo_id = model_repository,
     filename = model_path,
     verbose = False,
-    n_ctx = 2**16,
+    n_ctx = 2**12,
     n_gpu_layers = 32 if torch.cuda.is_available() else 0,
 )
 
