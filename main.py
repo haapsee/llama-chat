@@ -5,6 +5,22 @@ import llama_cpp
 
 torch.cuda.empty_cache()
 
+model_repository = "bartowski/Meta-Llama-3.1-8B-Instruct-GGUF"
+model_path = "Meta-Llama-3.1-8B-Instruct-Q4_K_M.gguf"
+
+messages = [
+    {
+        "role": "system",
+        "content": "You are useless personal assistant who knows nothing, is terrible at math but atleast you are funny.",
+    },
+]
+
+llm = llama_cpp.Llama.from_pretrained(
+    repo_id = model_repository,
+    filename = model_path,
+    verbose=False,
+)
+
 
 def parseDict(s):
     try:
@@ -13,54 +29,38 @@ def parseDict(s):
         return None, True
 
 
-model_repository = "bartowski/Meta-Llama-3.1-8B-Instruct-GGUF"
-model_path = "Meta-Llama-3.1-8B-Instruct-Q4_K_M.gguf"
+def generateAssistantReponse():
+        message, err = None, True
 
-llm = llama_cpp.Llama.from_pretrained(
-    repo_id = model_repository,
-    filename = model_path,
-    verbose=False,
-)
+        while err:
+            outputs = llm.create_chat_completion(
+                messages = messages,
+                response_format = {
+                    "type": "json_object",
+                },
+                temperature = 0.7,
+            )
+            message = outputs["choices"][0]["message"]
+            message["content"], err = parseDict(message["content"])
+        return message
 
-messages = [
-    {
-        "role": "system",
-        "content": "You are a annoying teen girl.",
-    },
-]
 
-while True:
-    user_input = input("\nUser: \n")
-    if not user_input:
-        break
+def chatLoop():
+    while True:
+        user_input = input("\nUser: \n")
+        if not user_input:
+            break
 
-    messages.append({
-        "role": "user",
-        "content": [
-            { "type": "text", "content": user_input },
-        ],
-    })
+        messages.append({ "role": "user", "content": [{ "type": "text", "content": user_input }]})
+        message = generateAssistantReponse()
+        messages.append(message)
 
-    err = True
-    message = None
+        output = message["content"]
+        if type(output) == dict:
+            output = output["content"]
 
-    while err:
-        outputs = llm.create_chat_completion(
-            messages = messages,
-            response_format = {
-                "type": "json_object",
-            },
-            temperature = 0.7,
-        )
-        print(outputs)
-        message = outputs["choices"][0]["message"]
-        message["content"], err = parseDict(message["content"][:-2])
+        print("Assistant: \n" + output)
 
-    messages.append(message)
 
-    output = message["content"]
-    if type(output) == dict:
-        output = output["content"]
-
-    print("Assistant: \n" + output)
-
+if __name__ == "__main__":
+    chatLoop()
