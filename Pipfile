@@ -5,6 +5,7 @@ name = "pypi"
 
 [packages]
 torch = "*"
+huggingface-hub = "*"
 llama-cpp-python = "*"
 
 [dev-packages]
